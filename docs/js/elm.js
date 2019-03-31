@@ -6378,6 +6378,9 @@ var author$project$Main$siteHeader = A2(
 					elm$html$Html$text('Leaderboard')
 				]))
 		]));
+var elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var elm$core$List$head = function (list) {
 	if (list.b) {
 		var x = list.a;
@@ -6400,6 +6403,25 @@ var elm$core$String$fromFloat = _String_fromNumber;
 var elm$html$Html$td = _VirtualDom_node('td');
 var elm$html$Html$tr = _VirtualDom_node('tr');
 var author$project$Main$viewRaces = function (d) {
+	var manufacturer = function () {
+		var _n0 = d.vehicleManufacturer;
+		switch (_n0) {
+			case 'Chv':
+				return 'Chevrolet';
+			case 'Frd':
+				return 'Ford';
+			case 'Tyt':
+				return 'Toyota';
+			default:
+				return '';
+		}
+	}();
+	var lastStop = A2(
+		elm$core$Maybe$withDefault,
+		{pit_in_lap_count: 0},
+		elm$core$List$head(
+			elm$core$List$reverse(d.pitStops)));
+	var countPitStops = (-1) + elm$core$List$length(d.pitStops);
 	return A2(
 		elm$html$Html$tr,
 		_List_Nil,
@@ -6432,19 +6454,7 @@ var author$project$Main$viewRaces = function (d) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						function () {
-						var _n0 = d.vehicleManufacturer;
-						switch (_n0) {
-							case 'Chv':
-								return elm$html$Html$text('Chevrolet');
-							case 'Frd':
-								return elm$html$Html$text('Ford');
-							case 'Tyt':
-								return elm$html$Html$text('Toyota');
-							default:
-								return elm$html$Html$text('');
-						}
-					}()
+						elm$html$Html$text(manufacturer)
 					])),
 				A2(
 				elm$html$Html$td,
@@ -6484,23 +6494,15 @@ var author$project$Main$viewRaces = function (d) {
 				_List_fromArray(
 					[
 						elm$html$Html$text(
-						elm$core$String$fromInt(
-							elm$core$List$length(d.pitStops) - 1))
+						elm$core$String$fromInt(countPitStops))
 					])),
 				A2(
 				elm$html$Html$td,
 				_List_Nil,
 				_List_fromArray(
 					[
-						function () {
-						var lastStop = A2(
-							elm$core$Maybe$withDefault,
-							{pit_in_lap_count: 0},
-							elm$core$List$head(
-								elm$core$List$reverse(d.pitStops)));
-						return elm$html$Html$text(
-							elm$core$String$fromInt(lastStop.pit_in_lap_count));
-					}()
+						elm$html$Html$text(
+						elm$core$String$fromInt(lastStop.pit_in_lap_count))
 					]))
 			]));
 };

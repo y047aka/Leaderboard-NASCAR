@@ -176,36 +176,41 @@ view model =
 
 
 viewRaces d =
+    let
+        manufacturer =
+            case d.vehicleManufacturer of
+                "Chv" ->
+                    "Chevrolet"
+
+                "Frd" ->
+                    "Ford"
+
+                "Tyt" ->
+                    "Toyota"
+
+                _ ->
+                    ""
+
+        countPitStops =
+            d.pitStops |> List.length |> (+) -1
+
+        lastStop =
+            d.pitStops
+                |> List.reverse
+                |> List.head
+                |> Maybe.withDefault { pit_in_lap_count = 0 }
+    in
     tr []
         [ td [] [ text (String.fromInt d.runningPosition) ]
         , td [] [ text d.vehicleNumber ]
         , td [] [ text d.fullName ]
-        , td []
-            [ case d.vehicleManufacturer of
-                "Chv" ->
-                    text "Chevrolet"
-
-                "Frd" ->
-                    text "Ford"
-
-                "Tyt" ->
-                    text "Toyota"
-
-                _ ->
-                    text ""
-            ]
-        , td [] [ text (String.fromInt d.lapsCompleted) ]
-        , td [] [ text (String.fromFloat d.delta) ]
-        , td [] [ text (String.fromFloat d.last_lap_time) ]
-        , td [] [ text (String.fromFloat d.last_lap_speed) ]
-        , td [] [ text (String.fromInt (List.length d.pitStops - 1)) ]
-        , td []
-            [ let
-                lastStop =
-                    d.pitStops |> List.reverse |> List.head |> Maybe.withDefault { pit_in_lap_count = 0 }
-              in
-              text (String.fromInt lastStop.pit_in_lap_count)
-            ]
+        , td [] [ text manufacturer ]
+        , td [] [ text (d.lapsCompleted |> String.fromInt) ]
+        , td [] [ text (d.delta |> String.fromFloat) ]
+        , td [] [ text (d.last_lap_time |> String.fromFloat) ]
+        , td [] [ text (d.last_lap_speed |> String.fromFloat) ]
+        , td [] [ text (countPitStops |> String.fromInt) ]
+        , td [] [ text (lastStop.pit_in_lap_count |> String.fromInt) ]
         ]
 
 
