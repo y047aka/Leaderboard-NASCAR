@@ -6378,6 +6378,24 @@ var author$project$Main$siteHeader = A2(
 					elm$html$Html$text('Leaderboard')
 				]))
 		]));
+var elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return elm$core$Maybe$Just(x);
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
 var elm$core$String$fromFloat = _String_fromNumber;
 var elm$html$Html$td = _VirtualDom_node('td');
 var elm$html$Html$tr = _VirtualDom_node('tr');
@@ -6469,7 +6487,21 @@ var author$project$Main$viewRaces = function (d) {
 						elm$core$String$fromInt(
 							elm$core$List$length(d.pitStops) - 1))
 					])),
-				A2(elm$html$Html$td, _List_Nil, _List_Nil)
+				A2(
+				elm$html$Html$td,
+				_List_Nil,
+				_List_fromArray(
+					[
+						function () {
+						var lastStop = A2(
+							elm$core$Maybe$withDefault,
+							{pit_in_lap_count: 0},
+							elm$core$List$head(
+								elm$core$List$reverse(d.pitStops)));
+						return elm$html$Html$text(
+							elm$core$String$fromInt(lastStop.pit_in_lap_count));
+					}()
+					]))
 			]));
 };
 var elm$core$Debug$toString = _Debug_toString;

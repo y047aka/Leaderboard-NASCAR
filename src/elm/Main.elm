@@ -199,7 +199,13 @@ viewRaces d =
         , td [] [ text (String.fromFloat d.last_lap_time) ]
         , td [] [ text (String.fromFloat d.last_lap_speed) ]
         , td [] [ text (String.fromInt (List.length d.pitStops - 1)) ]
-        , td [] []
+        , td []
+            [ let
+                lastStop =
+                    d.pitStops |> List.reverse |> List.head |> Maybe.withDefault { pit_in_lap_count = 0 }
+              in
+              text (String.fromInt lastStop.pit_in_lap_count)
+            ]
         ]
 
 
