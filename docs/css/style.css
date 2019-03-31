@@ -23,10 +23,10 @@ body {
       grid-template-columns: 1.5rem 1fr 1.5rem; } }
   @media screen and (min-width: 480px) and (max-width: 1279px) {
     body {
-      grid-template-columns: 1fr 75% 1fr; } }
+      grid-template-columns: 1fr 90% 1fr; } }
   @media screen and (min-width: 1280px) {
     body {
-      grid-template-columns: 1fr 50% 1fr; } }
+      grid-template-columns: 1fr 75% 1fr; } }
   body > header.site-header {
     grid-row: 1;
     grid-column: 2;
