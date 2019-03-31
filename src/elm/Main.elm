@@ -38,7 +38,7 @@ type UserState
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model Init
-    , ppp
+    , fetchJson
     )
 
 
@@ -60,10 +60,10 @@ update msg model =
             ( { model | userState = Failed error }, Cmd.none )
 
 
-ppp : Cmd Msg
-ppp =
+fetchJson : Cmd Msg
+fetchJson =
     Http.get
-        { url = "https://m.nascar.com/live/feeds/series_1/4776/live_feed.json"
+        { url = "https://m.nascar.com/live/feeds/series_1/4779/live_feed.json"
         , expect = Http.expectJson Recieve userDecoder
         }
 

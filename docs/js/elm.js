@@ -5904,15 +5904,15 @@ var elm$http$Http$get = function (r) {
 	return elm$http$Http$request(
 		{body: elm$http$Http$emptyBody, expect: r.expect, headers: _List_Nil, method: 'GET', timeout: elm$core$Maybe$Nothing, tracker: elm$core$Maybe$Nothing, url: r.url});
 };
-var author$project$Main$ppp = elm$http$Http$get(
+var author$project$Main$fetchJson = elm$http$Http$get(
 	{
 		expect: A2(elm$http$Http$expectJson, author$project$Main$Recieve, author$project$Main$userDecoder),
-		url: 'https://m.nascar.com/live/feeds/series_1/4776/live_feed.json'
+		url: 'https://m.nascar.com/live/feeds/series_1/4779/live_feed.json'
 	});
 var author$project$Main$init = function (_n0) {
 	return _Utils_Tuple2(
 		author$project$Main$Model(author$project$Main$Init),
-		author$project$Main$ppp);
+		author$project$Main$fetchJson);
 };
 var author$project$Main$Failed = function (a) {
 	return {$: 'Failed', a: a};
