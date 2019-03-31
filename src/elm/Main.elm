@@ -86,11 +86,22 @@ type alias Vehicle =
     , delta : Float
     , last_lap_time : Float
     , last_lap_speed : Float
+    , pitStops : List Stop
     }
 
 
 type alias Vehicles =
     List Vehicle
+
+
+type alias Stop =
+    { pit_in_lap_count : Int
+    }
+
+
+userDecoder : Decode.Decoder Vehicles
+userDecoder =
+    Decode.field "vehicles" (Decode.list vehicle)
 
 
 vehicle : Decode.Decoder Vehicle
@@ -104,11 +115,13 @@ vehicle =
         |> required "delta" Decode.float
         |> required "last_lap_time" Decode.float
         |> required "last_lap_speed" Decode.float
+        |> required "pit_stops" (Decode.list stop)
 
 
-userDecoder : Decode.Decoder Vehicles
-userDecoder =
-    Decode.field "vehicles" (Decode.list vehicle)
+stop : Decode.Decoder Stop
+stop =
+    Decode.succeed Stop
+        |> required "pit_in_lap_count" Decode.int
 
 
 
@@ -185,7 +198,7 @@ viewRaces d =
         , td [] [ text (String.fromFloat d.delta) ]
         , td [] [ text (String.fromFloat d.last_lap_time) ]
         , td [] [ text (String.fromFloat d.last_lap_speed) ]
-        , td [] []
+        , td [] [ text (String.fromInt (List.length d.pitStops - 1)) ]
         , td [] []
         ]
 

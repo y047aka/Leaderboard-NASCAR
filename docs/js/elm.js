@@ -5023,48 +5023,60 @@ var NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
 			A2(elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
-var author$project$Main$Vehicle = F8(
-	function (runningPosition, vehicleNumber, fullName, vehicleManufacturer, lapsCompleted, delta, last_lap_time, last_lap_speed) {
-		return {delta: delta, fullName: fullName, lapsCompleted: lapsCompleted, last_lap_speed: last_lap_speed, last_lap_time: last_lap_time, runningPosition: runningPosition, vehicleManufacturer: vehicleManufacturer, vehicleNumber: vehicleNumber};
+var author$project$Main$Vehicle = F9(
+	function (runningPosition, vehicleNumber, fullName, vehicleManufacturer, lapsCompleted, delta, last_lap_time, last_lap_speed, pitStops) {
+		return {delta: delta, fullName: fullName, lapsCompleted: lapsCompleted, last_lap_speed: last_lap_speed, last_lap_time: last_lap_time, pitStops: pitStops, runningPosition: runningPosition, vehicleManufacturer: vehicleManufacturer, vehicleNumber: vehicleNumber};
 	});
-var elm$json$Json$Decode$float = _Json_decodeFloat;
+var author$project$Main$Stop = function (pit_in_lap_count) {
+	return {pit_in_lap_count: pit_in_lap_count};
+};
 var elm$json$Json$Decode$int = _Json_decodeInt;
-var elm$json$Json$Decode$string = _Json_decodeString;
 var elm$json$Json$Decode$succeed = _Json_succeed;
+var author$project$Main$stop = A3(
+	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+	'pit_in_lap_count',
+	elm$json$Json$Decode$int,
+	elm$json$Json$Decode$succeed(author$project$Main$Stop));
+var elm$json$Json$Decode$float = _Json_decodeFloat;
+var elm$json$Json$Decode$list = _Json_decodeList;
+var elm$json$Json$Decode$string = _Json_decodeString;
 var author$project$Main$vehicle = A3(
 	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-	'last_lap_speed',
-	elm$json$Json$Decode$float,
+	'pit_stops',
+	elm$json$Json$Decode$list(author$project$Main$stop),
 	A3(
 		NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-		'last_lap_time',
+		'last_lap_speed',
 		elm$json$Json$Decode$float,
 		A3(
 			NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-			'delta',
+			'last_lap_time',
 			elm$json$Json$Decode$float,
 			A3(
 				NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-				'laps_completed',
-				elm$json$Json$Decode$int,
+				'delta',
+				elm$json$Json$Decode$float,
 				A3(
 					NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-					'vehicle_manufacturer',
-					elm$json$Json$Decode$string,
+					'laps_completed',
+					elm$json$Json$Decode$int,
 					A3(
 						NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-						'driver',
-						A2(elm$json$Json$Decode$field, 'full_name', elm$json$Json$Decode$string),
+						'vehicle_manufacturer',
+						elm$json$Json$Decode$string,
 						A3(
 							NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-							'vehicle_number',
-							elm$json$Json$Decode$string,
+							'driver',
+							A2(elm$json$Json$Decode$field, 'full_name', elm$json$Json$Decode$string),
 							A3(
 								NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
-								'running_position',
-								elm$json$Json$Decode$int,
-								elm$json$Json$Decode$succeed(author$project$Main$Vehicle)))))))));
-var elm$json$Json$Decode$list = _Json_decodeList;
+								'vehicle_number',
+								elm$json$Json$Decode$string,
+								A3(
+									NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
+									'running_position',
+									elm$json$Json$Decode$int,
+									elm$json$Json$Decode$succeed(author$project$Main$Vehicle))))))))));
 var author$project$Main$userDecoder = A2(
 	elm$json$Json$Decode$field,
 	'vehicles',
@@ -6448,7 +6460,15 @@ var author$project$Main$viewRaces = function (d) {
 						elm$html$Html$text(
 						elm$core$String$fromFloat(d.last_lap_speed))
 					])),
-				A2(elm$html$Html$td, _List_Nil, _List_Nil),
+				A2(
+				elm$html$Html$td,
+				_List_Nil,
+				_List_fromArray(
+					[
+						elm$html$Html$text(
+						elm$core$String$fromInt(
+							elm$core$List$length(d.pitStops) - 1))
+					])),
 				A2(elm$html$Html$td, _List_Nil, _List_Nil)
 			]));
 };
