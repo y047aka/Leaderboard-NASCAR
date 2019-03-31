@@ -67,11 +67,6 @@ main {
   main a {
     color: #0066cc;
     text-decoration: none; }
-  main ul {
-    padding-left: 2em;
-    list-style: square; }
-    main ul li {
-      line-height: 2.6rem; }
   main table.leaderboard {
     width: 100%;
     border-collapse: collapse; }
@@ -88,13 +83,11 @@ main {
       font-weight: 600; }
       main table.leaderboard tr td:first-child, main table.leaderboard tr td:nth-child(2) {
         text-align: center; }
-      main table.leaderboard tr td ul {
-        padding: 0; }
-        main table.leaderboard tr td ul li {
-          display: inline-block;
-          list-style: none; }
-          main table.leaderboard tr td ul li + li {
-            margin-left: 1.5rem; }
+      main table.leaderboard tr td ul li {
+        display: inline-block;
+        list-style: none; }
+        main table.leaderboard tr td ul li + li {
+          margin-left: 1.5rem; }
     main table.leaderboard tr:nth-child(odd) > td {
       background: rgba(46, 77, 107, 0.05); }
 
