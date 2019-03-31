@@ -5032,7 +5032,7 @@ var author$project$Main$Stop = function (pit_in_lap_count) {
 };
 var elm$json$Json$Decode$int = _Json_decodeInt;
 var elm$json$Json$Decode$succeed = _Json_succeed;
-var author$project$Main$stop = A3(
+var author$project$Main$stopDecoder = A3(
 	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 	'pit_in_lap_count',
 	elm$json$Json$Decode$int,
@@ -5043,7 +5043,7 @@ var elm$json$Json$Decode$string = _Json_decodeString;
 var author$project$Main$vehicle = A3(
 	NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 	'pit_stops',
-	elm$json$Json$Decode$list(author$project$Main$stop),
+	elm$json$Json$Decode$list(author$project$Main$stopDecoder),
 	A3(
 		NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required,
 		'last_lap_speed',
@@ -6378,14 +6378,22 @@ var author$project$Main$siteHeader = A2(
 					elm$html$Html$text('Leaderboard')
 				]))
 		]));
-var elm$core$Basics$negate = function (n) {
-	return -n;
+var elm$html$Html$li = _VirtualDom_node('li');
+var author$project$Main$pitStop = function (stop) {
+	return A2(
+		elm$html$Html$li,
+		_List_Nil,
+		_List_fromArray(
+			[
+				elm$html$Html$text(
+				elm$core$String$fromInt(stop.pit_in_lap_count))
+			]));
 };
-var elm$core$List$head = function (list) {
+var elm$core$List$tail = function (list) {
 	if (list.b) {
 		var x = list.a;
 		var xs = list.b;
-		return elm$core$Maybe$Just(x);
+		return elm$core$Maybe$Just(xs);
 	} else {
 		return elm$core$Maybe$Nothing;
 	}
@@ -6402,6 +6410,7 @@ var elm$core$Maybe$withDefault = F2(
 var elm$core$String$fromFloat = _String_fromNumber;
 var elm$html$Html$td = _VirtualDom_node('td');
 var elm$html$Html$tr = _VirtualDom_node('tr');
+var elm$html$Html$ul = _VirtualDom_node('ul');
 var author$project$Main$viewRaces = function (d) {
 	var manufacturer = function () {
 		var _n0 = d.vehicleManufacturer;
@@ -6416,12 +6425,6 @@ var author$project$Main$viewRaces = function (d) {
 				return '';
 		}
 	}();
-	var lastStop = A2(
-		elm$core$Maybe$withDefault,
-		{pit_in_lap_count: 0},
-		elm$core$List$head(
-			elm$core$List$reverse(d.pitStops)));
-	var countPitStops = (-1) + elm$core$List$length(d.pitStops);
 	return A2(
 		elm$html$Html$tr,
 		_List_Nil,
@@ -6493,16 +6496,16 @@ var author$project$Main$viewRaces = function (d) {
 				_List_Nil,
 				_List_fromArray(
 					[
-						elm$html$Html$text(
-						elm$core$String$fromInt(countPitStops))
-					])),
-				A2(
-				elm$html$Html$td,
-				_List_Nil,
-				_List_fromArray(
-					[
-						elm$html$Html$text(
-						elm$core$String$fromInt(lastStop.pit_in_lap_count))
+						A2(
+						elm$html$Html$ul,
+						_List_Nil,
+						A2(
+							elm$core$List$map,
+							author$project$Main$pitStop,
+							A2(
+								elm$core$Maybe$withDefault,
+								_List_Nil,
+								elm$core$List$tail(d.pitStops))))
 					]))
 			]));
 };
@@ -6615,13 +6618,6 @@ var author$project$Main$view = function (model) {
 															_List_fromArray(
 																[
 																	elm$html$Html$text('Pit Stops')
-																])),
-															A2(
-															elm$html$Html$th,
-															_List_Nil,
-															_List_fromArray(
-																[
-																	elm$html$Html$text('Last Pit')
 																]))
 														])),
 													A2(

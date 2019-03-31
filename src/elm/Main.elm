@@ -115,11 +115,11 @@ vehicle =
         |> required "delta" Decode.float
         |> required "last_lap_time" Decode.float
         |> required "last_lap_speed" Decode.float
-        |> required "pit_stops" (Decode.list stop)
+        |> required "pit_stops" (Decode.list stopDecoder)
 
 
-stop : Decode.Decoder Stop
-stop =
+stopDecoder : Decode.Decoder Stop
+stopDecoder =
     Decode.succeed Stop
         |> required "pit_in_lap_count" Decode.int
 
@@ -161,7 +161,6 @@ view model =
                                 , th [] [ text "Last Lap" ]
                                 , th [] [ text "mph" ]
                                 , th [] [ text "Pit Stops" ]
-                                , th [] [ text "Last Pit" ]
                                 ]
                             , tbody [] (List.map viewRaces vehicles)
                             ]
@@ -190,15 +189,6 @@ viewRaces d =
 
                 _ ->
                     ""
-
-        countPitStops =
-            d.pitStops |> List.length |> (+) -1
-
-        lastStop =
-            d.pitStops
-                |> List.reverse
-                |> List.head
-                |> Maybe.withDefault { pit_in_lap_count = 0 }
     in
     tr []
         [ td [] [ text (String.fromInt d.runningPosition) ]
@@ -209,9 +199,13 @@ viewRaces d =
         , td [] [ text (d.delta |> String.fromFloat) ]
         , td [] [ text (d.last_lap_time |> String.fromFloat) ]
         , td [] [ text (d.last_lap_speed |> String.fromFloat) ]
-        , td [] [ text (countPitStops |> String.fromInt) ]
-        , td [] [ text (lastStop.pit_in_lap_count |> String.fromInt) ]
+        , td [] [ ul [] (List.map pitStop (d.pitStops |> List.tail |> Maybe.withDefault [])) ]
         ]
+
+
+pitStop : Stop -> Html Msg
+pitStop stop =
+    li [] [ text (stop.pit_in_lap_count |> String.fromInt) ]
 
 
 siteHeader : Html Msg
