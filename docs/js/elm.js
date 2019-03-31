@@ -6502,10 +6502,11 @@ var author$project$Main$viewRaces = function (d) {
 						A2(
 							elm$core$List$map,
 							author$project$Main$pitStop,
-							A2(
-								elm$core$Maybe$withDefault,
-								_List_Nil,
-								elm$core$List$tail(d.pitStops))))
+							elm$core$List$reverse(
+								A2(
+									elm$core$Maybe$withDefault,
+									_List_Nil,
+									elm$core$List$tail(d.pitStops)))))
 					]))
 			]));
 };

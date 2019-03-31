@@ -199,7 +199,7 @@ viewRaces d =
         , td [] [ text (d.delta |> String.fromFloat) ]
         , td [] [ text (d.last_lap_time |> String.fromFloat) ]
         , td [] [ text (d.last_lap_speed |> String.fromFloat) ]
-        , td [] [ ul [] (List.map pitStop (d.pitStops |> List.tail |> Maybe.withDefault [])) ]
+        , td [] [ ul [] (List.map pitStop (d.pitStops |> List.tail |> Maybe.withDefault [] |> List.reverse)) ]
         ]
 
 
