@@ -9,6 +9,7 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (hardcoded, optional, required)
+import Time
 
 
 main =
@@ -16,7 +17,7 @@ main =
         { init = init
         , update = update
         , view = view
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }
 
 
@@ -47,12 +48,16 @@ init _ =
 
 
 type Msg
-    = Recieve (Result Http.Error Vehicles)
+    = Tick Time.Posix
+    | Recieve (Result Http.Error Vehicles)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Tick _ ->
+            ( model, fetchJson )
+
         Recieve (Ok vehicles) ->
             ( { model | userState = Loaded vehicles }, Cmd.none )
 
@@ -104,6 +109,15 @@ vehicle =
 userDecoder : Decode.Decoder Vehicles
 userDecoder =
     Decode.field "vehicles" (Decode.list vehicle)
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Time.every 5000 Tick
 
 
 
