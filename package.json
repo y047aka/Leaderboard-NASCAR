@@ -8,9 +8,12 @@
     "watch:elm": "elm-live ./src/elm/Main.elm --open --start-page=index.html --dir=docs -- --output=./docs/js/elm.js",
     "watch:sass": "node-sass --include-path sass ./src/sass/style.sass ./docs/css/style.css --watch --quiet",
     "watch": "npm-run-all -p watch:*",
-    "start": "npm-run-all -s echo copy watch"
+    "start": "npm-run-all -s echo copy watch",
+    "browser-sync": "browser-sync start --server ./docs --files \"**/*\"",
+    "developStyles": "npm-run-all -p watch:sass browser-sync"
   },
   "devDependencies": {
+    "browser-sync": "^2.26.3",
     "elm": "^0.19.0-bugfix6",
     "elm-live": "^3.4.0",
     "node-sass": "^4.11.0",
