@@ -5965,7 +5965,7 @@ var elm$http$Http$get = function (r) {
 var author$project$Main$fetchJson = elm$http$Http$get(
 	{
 		expect: A2(elm$http$Http$expectJson, author$project$Main$Recieve, author$project$Main$userDecoder),
-		url: 'https://m.nascar.com/live/feeds/series_2/4817/live_feed.json'
+		url: 'https://m.nascar.com/live/feeds/series_1/4780/live_feed.json'
 	});
 var author$project$Main$init = function (_n0) {
 	return _Utils_Tuple2(
