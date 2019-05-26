@@ -6389,24 +6389,6 @@ var author$project$Main$pitStop = function (stop) {
 				elm$core$String$fromInt(stop.pit_in_lap_count))
 			]));
 };
-var elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return elm$core$Maybe$Just(xs);
-	} else {
-		return elm$core$Maybe$Nothing;
-	}
-};
-var elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
 var elm$core$String$fromFloat = _String_fromNumber;
 var elm$html$Html$td = _VirtualDom_node('td');
 var elm$html$Html$tr = _VirtualDom_node('tr');
@@ -6502,11 +6484,7 @@ var author$project$Main$viewRaces = function (d) {
 						A2(
 							elm$core$List$map,
 							author$project$Main$pitStop,
-							elm$core$List$reverse(
-								A2(
-									elm$core$Maybe$withDefault,
-									_List_Nil,
-									elm$core$List$tail(d.pitStops)))))
+							elm$core$List$reverse(d.pitStops)))
 					]))
 			]));
 };
