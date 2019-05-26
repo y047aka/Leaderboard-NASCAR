@@ -68,7 +68,7 @@ update msg model =
 fetchJson : Cmd Msg
 fetchJson =
     Http.get
-        { url = "https://m.nascar.com/live/feeds/series_1/4780/live_feed.json"
+        { url = "https://m.nascar.com/live/feeds/series_1/4787/live_feed.json"
         , expect = Http.expectJson Recieve userDecoder
         }
 
